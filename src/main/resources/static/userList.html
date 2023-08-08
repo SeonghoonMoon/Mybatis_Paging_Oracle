@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Coffee Ver1</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" type="text/css" href="/css/comm.css">
+  <link rel="stylesheet" type="text/css" href="/css/account.css">
+
+</head>
+<body>
+
+
+<div class="topnav">
+  <a href="#">Home</a>
+  <a href="#">계정 관리</a>
+  <a href="#">권한 관리</a>
+  <a href="#">계정 요청</a>
+  <a href="#">권한 요청</a>
+</div>
+
+
+<div id="main" style="font-size:large; text-align: center; ">
+
+  <div id="search" style="height: 150px;padding: 15px; font-size: small">
+<!--    <h3>[ JavaScript (No jQuery) , No Vo, No Yaml ]</h3>-->
+    <form name="userListv1" autocomplete="on" action="/userListv1">
+      <fieldset>
+        <legend> [검색조건] </legend>
+        <label>생성일</label>
+        <input type="date" id="start_date" name="start_date" min="2018-11-01" max="2025-12-31">
+        - <input type="date" id="end_date" name="end_date" min="2018-11-01" max="2025-12-31">
+        &nbsp;&nbsp;
+        <label>계정명</label>
+        <input type="text" name="name">
+        &nbsp;&nbsp;
+        <label>종류</label>
+        <select name="kind">
+        <option value="ALL">계정 구분</option>
+        <option value="1.사용자">1.사용자</option>
+        <option value="2.서비스">2.서비스</option>
+        <option value="3.개인">3.개인</option>
+        </select>
+        &nbsp;&nbsp;<input type="submit" value="조회" style="width: 80px;height: 30px;font-weight: bold; font-size: medium">
+        &nbsp;&nbsp;<button onclick="document.location='/v1/insert'" value="등록" style="width: 80px;height: 30px;font-weight: bold; font-size: medium">계정 등록</button>
+        &nbsp;&nbsp;<button onclick="document.location='/v1/'" value="삭제" style="width: 80px;height: 30px;font-weight: bold; font-size: medium">계정 삭제</button>
+      </fieldset>
+    </form>
+  </div>
+
+
+  <table class="table">
+    <thead>
+    <tr class="tr_td">
+      <th>Chk</th>
+      <th>ID</th>
+      <th>유저명</th>
+      <th>잠긴날짜</th>
+      <th>만료날짜</th>
+      <th>생성일</th>
+    </tr>
+    </thead>
+
+    <tbody id="t_body">
+    <tr class="tr_td">
+      <td><input type="checkbox" name="coffee_id" value="ID"></td>
+      <td>ID</td>
+      <td>유저명</td>
+      <td>잠긴날짜</td>
+      <td>만료날짜</td>
+      <td>생성일</td>
+    </tr>
+
+    </tbody>
+  </table>
+</div>
+
+
+<div class="footer">
+  <h4>HanaTour DB운영팀<span style="font-size:30px;">&#128156;</span></h4>
+</div>
+
+
+<script>
+  /* 현재 시간 날짜에 적용시키기 */
+  document.getElementById("start_date").value=new Date().toISOString().slice(0,10);
+  document.getElementById("end_date").value=new Date().toISOString().slice(0,10);
+</script>
+</body>
+</html>

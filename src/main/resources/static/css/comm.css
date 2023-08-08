@@ -1,0 +1,28 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+.navbar {
+    font-size : 100px;
+}
+
+/* Style the header */
+.header {
+    background-color: #f1f1f1;
+    padding: 20px;
+    text-align: center;
+}
+
+
+
+/* Footer */
+.footer {
+    padding: 2px;
+    text-align: center;
+    background: #ddd;
+    margin-top: 10px;
+}

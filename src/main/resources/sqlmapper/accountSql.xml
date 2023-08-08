@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanatour.account.dao.AccountV1Dao">
+
+
+    <!--  전체 계정 목록 조회  -->
+    <select id="getAllList" resultType="map">
+        select user_id, username, account_status, profile, lock_date, expiry_date, created
+        from (
+                SELECT user_id, username, account_status, profile, lock_date, expiry_date, created, rownum rn
+                FROM dba_users
+                where 1=1
+                <![CDATA[-->
+                  AND ROWNUM <= #{pageNum} * #{amount}
+              )
+        WHERE rn > (#{pageNum}-1) * #{amount}
+        ]]>-->
+    </select>
+
+
+    <!--  전체 계정 목록 조회  -->
+    <select id="getList" resultType="map" >
+        select user_id, username, account_status, profile, lock_date, expiry_date, created
+          from (
+                SELECT user_id, username, account_status, profile, lock_date, expiry_date, created, rownum rn
+                FROM dba_users
+                where 1=1
+                <if test="strAccount == null and strProfile='ALL'">
+                    and 1=1
+                </if>
+                <if test="strAccount != null and strAccount != ''">
+                    and username like '%' || #{strAccount,jdbcType=VARCHAR} || '%'
+                </if>
+                <if test="strProfile != 'ALL'">
+                    and profile = #{strProfile}
+                </if>
+        <![CDATA[
+                AND ROWNUM <= #{criteria.pageNum} * #{criteria.amount}
+                )
+        WHERE rn > #{criteria.pageNum}-1 * #{criteria.amount}
+        ]]>
+    </select>
+
+    <select id="getAllTotal" resultType="int">
+        SELECT count(*) FROM dba_users
+    </select>
+
+    <select id="getSearchTotal" resultType="int">
+        SELECT count(*) FROM dba_users
+         where 1=1
+        <if test="strAccount == null and strProfile='ALL'">
+            and 1=1
+        </if>
+        <if test="strAccount != null and strAccount != ''">
+            and username like '%' || #{strAccount,jdbcType=VARCHAR} || '%'
+        </if>
+        <if test="strProfile != 'ALL'">
+            and profile = #{strProfile}
+        </if>
+    </select>
+
+    <!--  전체 계정 목록 조회  -->
+    <select id="getUserList" resultType="map">
+        SELECT user_id, username, account_status, profile, lock_date, expiry_date, created
+          FROM dba_users
+        where 1=1
+            <if test="strAccount == null and strProfile='ALL'">
+                and 1=1
+            </if>
+            <if test="strAccount != null and strAccount != ''">
+                and username like '%' || #{strAccount,jdbcType=VARCHAR} || '%'
+            </if>
+            <if test="strProfile != 'ALL'">
+                and profile = #{strProfile}
+            </if>
+    </select>
+    <!-- 계정 등록 -->
+    <insert id="postCreateUser">
+        BEGIN
+        DBAMGNT.P_CREATE_USER(#{dept,jdbcType=VARCHAR},#{empno,jdbcType=VARCHAR},#{empnm,jdbcType=VARCHAR},#{srRequestNumber,jdbcType=VARCHAR});
+        END;
+    </insert>
+
+    <insert id="postDropUser">
+        BEGIN
+        DBAMGNT.P_DROP_USER(#{strUsername,jdbcType=VARCHAR});
+        END;
+    </insert>
+</mapper>
